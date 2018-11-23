@@ -1,4 +1,8 @@
 <?php 
+	$myName = "PHP06";
+	echo $myName;
+	echo "<br>";
 	echo "Hello world!";
 ?>
+
 <h1>Hello PHP</h1>
