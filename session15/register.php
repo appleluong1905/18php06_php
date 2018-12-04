@@ -9,13 +9,16 @@
 	</style>
 </head>
 <body>
+- Thêm 2 trường giới tính (radio) và tỉnh/thành (select option) khi đăng ký
 	<?php 
-	$errName = $errUsername = $errPass = '';
-	$name = $username = $password = '';
+	$errName = $errUsername = $errPass = $errGender = $errCity = '';
+	$name = $username = $password = $gender = $city = '';
 	if(isset($_POST['register'])) {
 		$name     = $_POST['name'];
 		$username = $_POST['username'];
 		$password = $_POST['password'];
+		$gender = isset($_POST['gender'])?$_POST['gender']:'';
+		$city   = isset($_POST['city'])?$_POST['city']:'';
 		if($name == '') {
 			$errName = 'Please input your name';
 		}
@@ -24,6 +27,12 @@
 		}
 		if($password == '') {
 			$errPass = 'Please input your password';
+		}
+		if($gender == '') {
+			$errGender = 'Please choose gender';
+		}
+		if($city == '') {
+			$errCity = 'Please choose city';
 		}
 	} 	
 	?>
@@ -40,6 +49,22 @@
 		<p>Password:<input type="password" name="password"
 		value="<?php echo $password?>">
 			<span><?php echo $errPass;?></span>
+		</p>
+		<p>Gender:
+		<input type="radio" name="gender" value="male"
+		<?php if($gender == 'male'){echo "checked";}?>> Male
+		<input type="radio" name="gender" value="female"
+		<?php if($gender == 'female'){echo "checked";}?>> Female
+		<span><?php echo $errGender;?></span>
+		</p>
+		<p>City:
+			<select name="city">
+				<option value="">Choose city</option>
+				<option value="dn">Da Nang</option>
+				<option value="hn">Ha Noi</option>
+				<option value="hcm">Ho Chi Minh</option>
+			</select>
+			<span><?php echo $errCity;?></span>
 		</p>
 		<input type="submit" name="register" value="Register">
 	</form>
