@@ -2,6 +2,11 @@
 <html>
 <head>
 	<title>Edit product</title>
+	<style type="text/css">
+		img {
+			width: 150px;
+		}
+	</style>
 </head>
 <body>
 	<?php include 'connect_db.php';?>
@@ -15,12 +20,21 @@
 		$description = $oldProduct['description'];
 		$price       = $oldProduct['price'];
 		$status      = $oldProduct['status'];
+		$imageName   = $oldProduct['image'];
 		if (isset($_POST['edit_product'])) {
 			$name        = $_POST['name'];
 			$description = $_POST['description'];
 			$price       = $_POST['price'];
 			$status      = $_POST['status'];
-			$sql = "UPDATE products SET name = '$name', description = '$description', price = $price, status = $status WHERE id = $id";
+			if (!$_FILES['image']['error']) {
+				// xu ly upload anh
+				$image = $_FILES['image'];
+				$imageName   = uniqid().'_'.$image['name'];
+				$targetUpload = 'uploads/'.$imageName;
+				move_uploaded_file($image['tmp_name'], $targetUpload);
+			// ket thuc xu ly upload anh
+			}
+			$sql = "UPDATE products SET name = '$name', description = '$description', price = $price, status = $status, image = '$imageName' WHERE id = $id";
 			if (mysqli_query($conn, $sql) === TRUE) {
 				header("Location: list_product.php");
 			}
@@ -32,6 +46,7 @@
 		<p>Product description: <textarea name="description" rows="10" cols="30"><?php echo $description?></textarea></p>
 		<p>Product price: <input type="text" name="price" placeholder="Please input product price" value="<?php echo $price?>"></p>
 		<p>Product image: <input type="file" name="image"></p>
+		<img src="uploads/<?php echo $imageName?>">
 		<p>Status:
 			<input type="radio" name="status" value="1" <?php echo $status == 1?"checked":"";?>> Yes
 			<input type="radio" name="status" value="0" <?php echo $status == 0?"checked":"";?>> No
