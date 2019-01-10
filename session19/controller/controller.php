@@ -6,16 +6,22 @@
 			$action = isset($_GET['news_id'])?'news_detail':"home";
 
 			if ($action == 'home') {
-				$model = new Model();
-				$list_news = $model->getHome();
-				include 'view/home.php';
+				$this->showHome();
 			} else {
-				$news_id = $_GET['news_id'];
-				$model = new Model();
-				$news_detail = $model->getNewsDetail($news_id);
-				include 'view/news_detail.php';
+				$this->newsDetail();
 			}
 
+		}
+		public function showHome() {
+			$model = new Model();
+			$list_news = $model->getHome();
+			include 'view/home.php';
+		}
+		public function newsDetail() {
+			$news_id = $_GET['news_id'];
+			$model = new Model();
+			$news_detail = $model->getNewsDetail($news_id);
+			include 'view/news_detail.php';
 		}
 	}
 ?>
