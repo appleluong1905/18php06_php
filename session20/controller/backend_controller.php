@@ -69,7 +69,9 @@
 					# code...
 					break;
 				default:
-					# code...
+					$newsModel = new NewsModel();
+					$listNews = $newsModel->listNews();
+					include 'view/admin/news/list.php';
 					break;
 			}
 		}
