@@ -14,7 +14,7 @@
 
 		if (isset($_POST['Login'])) {
 			$username = $_POST['username'];
-			$password = $_POST['password'];
+			$password = md5($_POST['password']);
 			// check username va password trung voi username va password trong bang users moi cho login thanh cong
 			$sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
 			$result = mysqli_query($conn, $sql);
