@@ -6,13 +6,26 @@
 </head>
 <body>
 	<?php 
+		$conn = mysqli_connect('localhost', 'root', 'none', '18php06_login');
+		if (mysqli_connect_errno()) {
+		  	echo "Failed to connect to MySQL: " . mysqli_connect_error();
+		}
+		mysqli_set_charset($conn, "utf8");
+
 		if (isset($_POST['Login'])) {
 			$username = $_POST['username'];
 			$password = $_POST['password'];
 			// check username va password trung voi username va password trong bang users moi cho login thanh cong
-			// $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
-			$_SESSION['login'] = $username;
-			header("Location: admin.php");
+			$sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+			$result = mysqli_query($conn, $sql);
+			$check = $result->fetch_assoc();
+			if (!empty($check)) {
+					$_SESSION['login'] = $username;
+					header("Location: admin.php");
+			} else {
+				echo "Sai username hoac password";
+			}
+
 		}
 	?>
 	<form action="login.php" method="POST">
